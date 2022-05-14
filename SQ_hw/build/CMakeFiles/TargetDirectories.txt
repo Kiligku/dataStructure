@@ -1,0 +1,3 @@
+D:/Cprojects/StackQueue_hw/build/CMakeFiles/main.dir
+D:/Cprojects/StackQueue_hw/build/CMakeFiles/edit_cache.dir
+D:/Cprojects/StackQueue_hw/build/CMakeFiles/rebuild_cache.dir
