@@ -4,28 +4,7 @@
 #include "graph.h"
 using namespace std;
 
-void printGraph(Graph g)
-{
-    for (auto i = g.matrix.begin(); i != g.matrix.end(); i++)
-    {
-        for (auto j = i->begin(); j != i->end(); j++)
-        {
-            cout << *j << " ";
-        }
-        cout << endl;
-    }
-}
-void printAllNeighbours(Graph g, int nodeNum)
-{
-    for (int x = 0; x < nodeNum; x++)
-    {
-        cout << "node" << x << ":" << endl;
-        for (int w = g.firstNeighbour(x); w != -1; w = g.nextNeighbour(x, w))
-        {
-            cout << "w=" << w << endl;
-        }
-    }
-}
+
 int main()
 {
     int nodeNum;

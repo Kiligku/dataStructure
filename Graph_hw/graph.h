@@ -7,10 +7,10 @@ using namespace std;
 class Graph
 {
 private:
+    vector<int> visited;
     void BFS(int x);
     void DFS(int y);
-    vector<int> visited;
-
+    void floyd(vector<int> &ecc);
 public:
     int nodeNum;
     int edgeNum;
@@ -22,9 +22,8 @@ public:
     int isConnected();
     void nodeDegree(vector<int> &ode_degree);
     double clusteringCoefficient();
+    int dijkstra(int start, int end, vector<int> &path);
     int Diameter();
     int Radius();
-    int dijkstra(int start, int end, vector<int> &path);
-    void floyd(vector<int> &ecc);
     void printPath(vector<int> diameter_path);
 };
