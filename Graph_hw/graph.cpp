@@ -178,7 +178,161 @@ double Graph::clusteringCoefficient()
     return cc / this->nodeNum;
 }
 
-int Diameter();
-int Radius();
-int dijkstra(int start, int end, int *path);
-void printPath(int d, int *diameter_path);
+/**
+ * 使用dijkstra算法计算单源最短路径
+ * @param start 起点
+ * @param end 终点
+ * @param path 从start到end的路径, [start,...,end]
+ * @return 路径长度
+ */
+int Graph::dijkstra(int start, int end, vector<int> &path)
+{
+    // 初始化
+    vector<int> final(this->nodeNum, 0);
+    vector<int> dist(this->nodeNum, MAX_DIS);
+    vector<int> _path(this->nodeNum, -1);
+    final[start] = 1;
+    dist[start] = 0;
+    _path[start] = start;
+    for (int w = firstNeighbour(start); w != -1; w = nextNeighbour(start, w))
+    {
+        dist[w] = this->matrix[start][w];
+        _path[w] = start;
+    }
+    // 遍历操作
+    int cnt = 0;
+    while (cnt < this->nodeNum - 1)
+    {
+        int node = -1;
+        int minDist = MAX_DIS;
+        for (int i = 0; i < this->nodeNum; i++)
+        {
+            if (!final[i] && dist[i] < minDist)
+            {
+                minDist = dist[i];
+                node = i; // 选出dist最小且没有确定最佳路径的顶点
+            }
+        }
+        final[node] = 1;
+        for (int i = 0; i < this->nodeNum; i++)
+        {
+            if (!final[i] && this->matrix[node][i] < MAX_DIS) // 遍历没有确定最短路径的邻居
+            {
+                if (dist[i] > (dist[node] + this->matrix[i][node]))
+                {
+                    dist[i] = this->matrix[i][node] + dist[node]; // 更新最短距离
+                    _path[i] = node;
+                }
+            }
+        }
+        cnt++;
+    }
+    int pathNode = end;
+    while (pathNode != start)
+    {
+
+        path.insert(path.begin(), pathNode);
+        pathNode = _path[pathNode];
+    }
+    path.insert(path.begin(), start);
+    return dist[end];
+}
+
+/**
+ * @brief 用floyd算法求每对顶点之间的最短距离
+ *
+ * @param dis 存储距离信息的数组
+ */
+void Graph::floyd(vector<int> &ecc)
+{
+    vector<vector<int>> dis;
+    for (int i = 0; i < this->nodeNum; i++)
+    {
+        vector<int> t;
+        // 初始化距离数组
+        for (int j = 0; j < this->nodeNum; j++)
+        {
+            t.push_back(matrix[i][j]);
+        }
+        dis.push_back(t);
+    }
+    for (int k = 0; k < this->nodeNum; k++) // 考虑以顶点k为中转
+    {
+        for (int i = 0; i < this->nodeNum; i++)
+        {
+            for (int j = 0; j < this->nodeNum; j++)
+            {
+                if (dis[i][j] > dis[i][k] + dis[k][j])
+                {
+                    dis[i][j] = dis[i][k] + dis[k][j];
+                }
+            }
+        }
+    }
+    for (int i = 0; i < this->nodeNum; i++)
+    {
+        int curEcc = 0;
+        for (int j = 0; j < this->nodeNum; j++)
+        {
+            if (dis[i][j] > curEcc)
+                curEcc = dis[i][j];
+        }
+        ecc.push_back(curEcc);
+    }
+}
+
+/**
+ * 计算图的直径。提示：Floyd算法
+ * @return 直径的长度
+ */
+int Graph::Diameter()
+{
+    vector<int> ecc;
+    floyd(ecc);
+    int d = 0;
+    for (int i = 0; i < this->nodeNum; i++)
+    {
+        if (ecc[i] > d)
+            d = ecc[i];
+    }
+    return d;
+}
+
+/**
+ * 计算图的半径
+ * @return 半径长度
+ */
+int Graph::Radius()
+{
+    vector<int> ecc;
+    floyd(ecc);
+    int r = MAX_DIS;
+    for (int i = 0; i < this->nodeNum; i++)
+    {
+        if (ecc[i] < r)
+            r = ecc[i];
+    }
+    return r;
+}
+
+/**
+ * 根据和路径数组path输出路径
+ * @param diameter_path 储存路径的数组
+ */
+void Graph::printPath(vector<int> diameter_path)
+{
+    int k = 0;
+    int path_length = 0;
+    cout << "Path: ";
+    for (auto it = diameter_path.begin(); it != diameter_path.end(); it++)
+    {
+        if (it + 1 == diameter_path.end())
+        {
+            cout << this->vertex[*it] << endl;
+        }
+        else
+        {
+            cout << this->vertex[*it] << "->";
+        }
+    }
+}

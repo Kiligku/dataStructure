@@ -24,6 +24,7 @@ public:
     double clusteringCoefficient();
     int Diameter();
     int Radius();
-    int dijkstra(int start, int end, int *path);
-    void printPath(int d, int *diameter_path);
+    int dijkstra(int start, int end, vector<int> &path);
+    void floyd(vector<int> &ecc);
+    void printPath(vector<int> diameter_path);
 };

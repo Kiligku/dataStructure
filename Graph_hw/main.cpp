@@ -54,11 +54,9 @@ int main()
             g.matrix[end_idx][start_idx] = weight;
         }
 
-
         // task1:
         int isConnected = g.isConnected();
         cout << "connected: " << isConnected << endl;
-
 
         // task2:
         vector<int> degree;
@@ -66,13 +64,26 @@ int main()
         cout << "degree distribution" << endl;
         for (int i = 0; i < nodeNum; i++)
         {
-            cout << "node" << g.vertex[i] << ":" << degree[i] << "," ;
+            cout << "node" << g.vertex[i] << ":" << degree[i] << ",";
         }
         cout << endl;
 
         // task3:
         double c = g.clusteringCoefficient();
         cout << "clustering coefficient:" << c << endl;
+        // task4:
+        if(g.isConnected())
+        {
+            vector<int> short_path;
+            int dis = g.dijkstra(1, 3, short_path);
+            cout << "the shortest path between 1 and 3:" << dis << endl;
+            g.printPath(short_path);
+
+            int d = g.Diameter();
+            cout << "diameter:" << d << endl;
+            int r = g.Radius();
+            cout << "radius:" << r << endl;
+        }
 
         cout << endl
              << endl;
