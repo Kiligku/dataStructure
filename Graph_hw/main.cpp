@@ -50,6 +50,7 @@ int main()
         // task3:
         double c = g.clusteringCoefficient();
         cout << "clustering coefficient:" << c << endl;
+        
         // task4:
         if(g.isConnected())
         {

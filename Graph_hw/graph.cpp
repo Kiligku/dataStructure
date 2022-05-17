@@ -89,7 +89,7 @@ void Graph::BFS(int x)
 }
 
 /**
- * @brief 图的广度优先遍历
+ * @brief 图的深度优先遍历
  *
  * @param x 开始遍历的顶点
  */
