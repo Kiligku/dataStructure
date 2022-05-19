@@ -241,7 +241,7 @@ int Graph::dijkstra(int start, int end, vector<int> &path)
 /**
  * @brief 用floyd算法求每对顶点之间的最短距离
  *
- * @param dis 存储距离信息的数组
+ * @param ecc 存储每个顶点eccentricity的数组
  */
 void Graph::floyd(vector<int> &ecc)
 {
@@ -269,6 +269,7 @@ void Graph::floyd(vector<int> &ecc)
             }
         }
     }
+    // 计算eccentricity
     for (int i = 0; i < this->nodeNum; i++)
     {
         int curEcc = 0;

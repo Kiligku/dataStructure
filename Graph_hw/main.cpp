@@ -65,8 +65,7 @@ int main()
             cout << "radius:" << r << endl;
         }
 
-        cout << endl
-             << endl;
+        cout << endl;
     }
     return 0;
 }
